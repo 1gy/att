@@ -1,0 +1,15 @@
+[workspace]
+members = ["crates/*"]
+
+[workspace.package]
+authors = ["1gy"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/1gy/att"
+version = "0.1.0"
+
+[workspace.dependencies]
+anyhow = { version = "1.0.75" }
+tokio = { version = "1.32.0" }
+
+att_cli = { path = "./crates/att_cli" }

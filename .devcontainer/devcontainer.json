@@ -1,0 +1,17 @@
+{
+	"name": "att-dev",
+	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
+	"features": {
+		"ghcr.io/devcontainers/features/rust:1": {
+			"version": "1.70",
+			"profile": "minimal"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"rust-lang.rust-analyzer"
+			]
+		}
+	}
+}

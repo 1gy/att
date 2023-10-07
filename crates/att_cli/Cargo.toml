@@ -1,0 +1,18 @@
+[package]
+name = "att_cli"
+version.workspace = true
+description = "AtCoder command line tools"
+edition = "2021"
+publish = false
+repository.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "att"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { workspace = true }
+tokio  = { workspace = true }
+
