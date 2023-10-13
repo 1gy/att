@@ -1,4 +1,4 @@
-use att_cli::{att_command, load_workspace, AttCommand};
+use att_cli::{att_command, commands, load_contest, load_workspace, AttCommand};
 use bpaf::{Args, ParseFailure};
 use std::process::ExitCode;
 
@@ -10,8 +10,18 @@ fn run(command: AttCommand) {
             return;
         }
     };
-    println!("{:?}", workspace);
-    println!("{:?}", command);
+
+    let contest = match load_contest() {
+        Some(contest) => contest,
+        None => {
+            println!("contest not found");
+            return;
+        }
+    };
+
+    match command {
+        AttCommand::Status => commands::status::execute(workspace, contest),
+    }
 }
 
 fn main() -> ExitCode {

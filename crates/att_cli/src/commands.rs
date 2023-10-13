@@ -1,3 +1,5 @@
+pub mod status;
+
 use bpaf::Bpaf;
 
 use crate::VERSION;
