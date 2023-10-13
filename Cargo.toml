@@ -11,5 +11,5 @@ version = "0.1.0"
 [workspace.dependencies]
 anyhow = { version = "1.0.75" }
 tokio = { version = "1.32.0" }
-
-att_cli = { path = "./crates/att_cli" }
+serde = { version = "1.0"}
+serde_json = { version = "1.0"}
