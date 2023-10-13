@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use crate::search_file;
+use crate::config::search_file;
 
 const CONSTEST_FILE_NAME: &str = ".atcontest.json";
 

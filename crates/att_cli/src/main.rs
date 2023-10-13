@@ -1,4 +1,8 @@
-use att_cli::{att_command, commands, load_contest, load_workspace, AttCommand};
+use att_cli::{
+    commands::{self, att_command, AttCommand},
+    contest::load_contest,
+    workspace::load_workspace,
+};
 use bpaf::{Args, ParseFailure};
 use std::process::ExitCode;
 
