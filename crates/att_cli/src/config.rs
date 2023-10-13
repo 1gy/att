@@ -1,11 +1,4 @@
-use serde::{Deserialize, Serialize};
 use std::{fs::OpenOptions, path::PathBuf};
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct WorkspaceConfig {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub command: Option<String>,
-}
 
 #[derive(Debug)]
 pub struct SearctResult {

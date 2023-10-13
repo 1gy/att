@@ -1,8 +1,14 @@
 use std::path::PathBuf;
 
-use crate::{search_file, WorkspaceConfig};
+use crate::search_file;
 
-const WORKSPACE_CONFIG_FILE_NAME: &str = ".atworkspace.json";
+const WORKSPACE_FILE_NAME: &str = ".atworkspace.json";
+
+#[derive(Debug, serde::Deserialize)]
+pub struct WorkspaceConfig {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub command: Option<String>,
+}
 
 #[derive(Debug)]
 pub struct Workspace {
@@ -15,7 +21,7 @@ pub fn load_workspace() -> Option<Workspace> {
         Ok(path) => path,
         Err(_) => PathBuf::new(),
     };
-    if let Some(searct_result) = search_file(working_directory, WORKSPACE_CONFIG_FILE_NAME) {
+    if let Some(searct_result) = search_file(working_directory, WORKSPACE_FILE_NAME) {
         if let Ok(file) = std::fs::OpenOptions::new()
             .read(true)
             .open(searct_result.file_path)
