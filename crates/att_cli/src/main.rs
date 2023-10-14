@@ -25,6 +25,7 @@ fn run(command: AttCommand) {
 
     match command {
         AttCommand::Status => commands::status::execute(workspace, contest),
+        AttCommand::Run => commands::run::execute(workspace),
     }
 }
 

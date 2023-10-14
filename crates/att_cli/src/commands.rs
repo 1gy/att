@@ -1,3 +1,4 @@
+pub mod run;
 pub mod status;
 
 use bpaf::Bpaf;
@@ -15,4 +16,7 @@ pub struct CliOptions {
 pub enum AttCommand {
     #[bpaf(command("status"))]
     Status,
+
+    #[bpaf(command("run"), short('r'))]
+    Run,
 }

@@ -5,9 +5,14 @@ use crate::config::search_file;
 const WORKSPACE_FILE_NAME: &str = ".atworkspace.json";
 
 #[derive(Debug, serde::Deserialize)]
+pub struct RunConfig {
+    pub program: String,
+    pub args: Vec<String>,
+}
+
+#[derive(Debug, serde::Deserialize)]
 pub struct WorkspaceConfig {
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub command: Option<String>,
+    pub run: RunConfig,
 }
 
 #[derive(Debug)]
