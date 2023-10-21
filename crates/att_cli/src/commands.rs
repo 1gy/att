@@ -20,3 +20,5 @@ pub enum AttCommand {
     #[bpaf(command("run"), short('r'))]
     Run,
 }
+
+pub struct AttContext {}

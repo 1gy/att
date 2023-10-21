@@ -1,31 +1,13 @@
-use att_cli::{
-    commands::{self, att_command, AttCommand},
-    contest::load_contest,
-    workspace::load_workspace,
-};
+use att_cli::commands::{self, att_command, AttCommand, AttContext};
 use bpaf::{Args, ParseFailure};
 use std::process::ExitCode;
 
 fn run(command: AttCommand) {
-    let workspace = match load_workspace() {
-        Some(workspace) => workspace,
-        None => {
-            println!("workspace not found");
-            return;
-        }
-    };
-
-    let contest = match load_contest() {
-        Some(contest) => contest,
-        None => {
-            println!("contest not found");
-            return;
-        }
-    };
+    let context = AttContext {};
 
     match command {
-        AttCommand::Status => commands::status::execute(workspace, contest),
-        AttCommand::Run => commands::run::execute(workspace),
+        AttCommand::Status => commands::status::execute(&context),
+        AttCommand::Run => commands::run::execute(&context),
     }
 }
 
