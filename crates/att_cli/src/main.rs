@@ -12,6 +12,7 @@ fn run(command: AttCommand) -> Result<(), CommandError> {
         AttCommand::Status => commands::status::execute(&context)?,
         AttCommand::Run => commands::run::execute(&context)?,
         AttCommand::Init => commands::init::execute(&context)?,
+        AttCommand::New { url } => commands::new::execute(&context, &url)?,
     }
 
     Ok(())

@@ -1,4 +1,5 @@
 pub mod init;
+pub mod new;
 pub mod run;
 pub mod status;
 
@@ -23,6 +24,13 @@ pub enum AttCommand {
 
     #[bpaf(command("init"), short('i'))]
     Init,
+
+    #[bpaf(command("new"), short('n'))]
+    New {
+        #[bpaf(positional("URL"))]
+        /// contest url
+        url: String,
+    },
 }
 
 pub struct AttContext {}
