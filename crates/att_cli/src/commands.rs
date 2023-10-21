@@ -21,7 +21,7 @@ pub enum AttCommand {
     #[bpaf(command("run"), short('r'))]
     Run,
 
-    #[bpaf(command("init"))]
+    #[bpaf(command("init"), short('i'))]
     Init,
 }
 
