@@ -8,7 +8,7 @@ pub enum InitCommandError {
     WorkspaceError(#[from] WorkspaceError),
 }
 
-pub fn execute(_context: &AttContext) -> Result<(), InitCommandError> {
+pub async fn execute(_context: &AttContext) -> Result<(), InitCommandError> {
     let info = init_workspace()?;
     println!("Initialized workspace: {}", info.file_path);
     println!("{}", info.text);

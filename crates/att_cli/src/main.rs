@@ -9,21 +9,22 @@ fn run(command: AttCommand) -> Result<(), CommandError> {
     let context = AttContext {};
 
     match command {
-        AttCommand::Status => commands::status::execute(&context)?,
-        AttCommand::Run => commands::run::execute(&context)?,
-        AttCommand::Init => commands::init::execute(&context)?,
-        AttCommand::New { url } => commands::new::execute(&context, &url)?,
+        AttCommand::Status => commands::status::execute(&context).await?,
+        AttCommand::Run => commands::run::execute(&context).await?,
+        AttCommand::Init => commands::init::execute(&context).await?,
+        AttCommand::New { url } => commands::new::execute(&context, &url).await?,
     }
 
     Ok(())
 }
 
-fn main() -> ExitCode {
+#[tokio::main]
+async fn main() -> ExitCode {
     let command = att_command().run_inner(Args::current_args());
 
     match command {
         Ok(command) => {
-            return match run(command) {
+            return match run(command).await {
                 Ok(_) => ExitCode::SUCCESS,
                 Err(err) => {
                     println!("error: {:?}", err.to_string());

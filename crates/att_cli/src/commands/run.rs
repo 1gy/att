@@ -12,7 +12,7 @@ pub enum RunCommandError {
     FailedToExecuteProcess(RunConfig),
 }
 
-pub fn execute(_context: &AttContext) -> Result<(), RunCommandError> {
+pub async fn execute(_context: &AttContext) -> Result<(), RunCommandError> {
     let workspace = load_workspace()?;
 
     let run_config = &workspace.config.run;

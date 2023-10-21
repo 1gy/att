@@ -1,3 +1,5 @@
+use async_trait::async_trait;
+
 use crate::contest::ContestInfo;
 
 use super::service::{Service, ServiceError};
@@ -36,12 +38,13 @@ impl AtCoderService {
     }
 }
 
+#[async_trait]
 impl Service for AtCoderService {
     fn get_name(&self) -> String {
         "AtCoder".to_string()
     }
 
-    fn fetch_contest_info(&self, url: &str) -> Result<ContestInfo, ServiceError> {
+    async fn fetch_contest_info(&self, url: &str) -> Result<ContestInfo, ServiceError> {
         let contest_id = get_contest_id(url);
         fetch_contest_info(contest_id)
     }

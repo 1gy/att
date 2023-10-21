@@ -13,7 +13,7 @@ pub enum StatusCommandError {
     ContestError(#[from] ContestError),
 }
 
-pub fn execute(_context: &AttContext) -> Result<(), StatusCommandError> {
+pub async fn execute(_context: &AttContext) -> Result<(), StatusCommandError> {
     match load_workspace() {
         Ok(workspace) => {
             println!("{:?}", workspace);
