@@ -23,7 +23,7 @@ fn fetch_contest_info(url: &str) -> Result<ContestInfo, ServiceError> {
     let contest_id = get_contest_id(url);
     let contest_page_url = get_contest_page_url(contest_id);
 
-    let title = "TODO".to_string();
+    let title = format!("{}", contest_id);
 
     Ok(ContestInfo {
         id: contest_id.to_string(),
