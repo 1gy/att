@@ -2,22 +2,28 @@ use crate::{contest::load_contest, workspace::load_workspace};
 
 use super::AttContext;
 
-pub fn execute(_context: &AttContext) {
-    let workspace = match load_workspace() {
-        Some(workspace) => workspace,
+#[derive(thiserror::Error, Debug)]
+#[error("status command error")]
+pub struct StatusCommandError;
+
+pub fn execute(_context: &AttContext) -> Result<(), StatusCommandError> {
+    match load_workspace() {
+        Some(workspace) => {
+            println!("{:?}", workspace);
+        }
         None => {
             println!("workspace not found");
-            return;
         }
     };
-    println!("{:?}", workspace);
 
-    let contest = match load_contest() {
-        Some(contest) => contest,
+    match load_contest() {
+        Some(contest) => {
+            println!("{:?}", contest);
+        }
         None => {
             println!("contest not found");
-            return;
         }
     };
-    println!("{:?}", contest);
+
+    Ok(())
 }

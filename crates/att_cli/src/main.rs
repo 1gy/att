@@ -1,14 +1,19 @@
-use att_cli::commands::{self, att_command, AttCommand, AttContext};
+use att_cli::{
+    commands::{self, att_command, AttCommand, AttContext},
+    error::CommandError,
+};
 use bpaf::{Args, ParseFailure};
 use std::process::ExitCode;
 
-fn run(command: AttCommand) {
+fn run(command: AttCommand) -> Result<(), CommandError> {
     let context = AttContext {};
 
     match command {
-        AttCommand::Status => commands::status::execute(&context),
-        AttCommand::Run => commands::run::execute(&context),
+        AttCommand::Status => commands::status::execute(&context)?,
+        AttCommand::Run => commands::run::execute(&context)?,
     }
+
+    Ok(())
 }
 
 fn main() -> ExitCode {
@@ -16,8 +21,13 @@ fn main() -> ExitCode {
 
     match command {
         Ok(command) => {
-            run(command);
-            ExitCode::SUCCESS
+            return match run(command) {
+                Ok(_) => ExitCode::SUCCESS,
+                Err(err) => {
+                    println!("error: {:?}", err.to_string());
+                    ExitCode::FAILURE
+                }
+            }
         }
         Err(failure) => {
             return match &failure {

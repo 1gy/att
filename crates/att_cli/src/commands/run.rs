@@ -1,21 +1,25 @@
 use std::process;
 
-use crate::workspace::load_workspace;
+use crate::workspace::{load_workspace, RunConfig};
 
 use super::AttContext;
 
-pub fn execute(_context: &AttContext) {
-    let workspace = match load_workspace() {
-        Some(workspace) => workspace,
-        None => {
-            println!("workspace not found");
-            return;
-        }
-    };
+#[derive(thiserror::Error, Debug)]
+pub enum RunCommandError {
+    #[error("workspace not found")]
+    WorkspaceNotFound,
+    #[error("failed to execute process: {0}")]
+    FailedToExecuteProcess(RunConfig),
+}
+
+pub fn execute(_context: &AttContext) -> Result<(), RunCommandError> {
+    let workspace = load_workspace().ok_or_else(|| RunCommandError::WorkspaceNotFound)?;
     let run_config = &workspace.config.run;
-    let mut child = process::Command::new(&run_config.program)
+    process::Command::new(&run_config.program)
         .args(&run_config.args)
         .spawn()
-        .expect("failed to execute process");
-    child.wait().unwrap();
+        .map_err(|_| RunCommandError::FailedToExecuteProcess(run_config.clone()))?
+        .wait()
+        .map_err(|_| RunCommandError::FailedToExecuteProcess(run_config.clone()))?;
+    Ok(())
 }

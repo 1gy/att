@@ -1,13 +1,19 @@
-use std::path::PathBuf;
+use std::{fmt, path::PathBuf};
 
 use crate::config::search_file;
 
 const WORKSPACE_FILE_NAME: &str = ".atworkspace.json";
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, serde::Deserialize, Clone)]
 pub struct RunConfig {
     pub program: String,
     pub args: Vec<String>,
+}
+
+impl fmt::Display for RunConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{} {}", self.program, self.args.join(" "))
+    }
 }
 
 #[derive(Debug, serde::Deserialize)]
