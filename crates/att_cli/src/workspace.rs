@@ -27,22 +27,30 @@ pub struct Workspace {
     pub directory_path: PathBuf,
 }
 
-pub fn load_workspace() -> Option<Workspace> {
-    let working_directory = match std::env::current_dir() {
-        Ok(path) => path,
-        Err(_) => PathBuf::new(),
-    };
+#[derive(Debug, thiserror::Error)]
+pub enum WorkspaceError {
+    #[error("workspace not found")]
+    NotFound,
+    #[error(transparent)]
+    Io(std::io::Error),
+    #[error(transparent)]
+    Json(serde_json::Error),
+}
+
+pub fn load_workspace() -> Result<Workspace, WorkspaceError> {
+    let working_directory = std::env::current_dir().map_err(|err| WorkspaceError::Io(err))?;
     if let Some(searct_result) = search_file(working_directory, WORKSPACE_FILE_NAME) {
         if let Ok(file) = std::fs::OpenOptions::new()
             .read(true)
             .open(searct_result.file_path)
         {
-            let config: WorkspaceConfig = serde_json::from_reader(file).unwrap();
-            return Some(Workspace {
+            let config: WorkspaceConfig =
+                serde_json::from_reader(file).map_err(|err| WorkspaceError::Json(err))?;
+            return Ok(Workspace {
                 config,
                 directory_path: searct_result.directory_path,
             });
         }
     }
-    None
+    Err(WorkspaceError::NotFound)
 }
