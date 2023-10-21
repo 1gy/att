@@ -1,3 +1,4 @@
+pub mod init;
 pub mod run;
 pub mod status;
 
@@ -19,6 +20,9 @@ pub enum AttCommand {
 
     #[bpaf(command("run"), short('r'))]
     Run,
+
+    #[bpaf(command("init"))]
+    Init,
 }
 
 pub struct AttContext {}

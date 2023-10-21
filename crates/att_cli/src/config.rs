@@ -6,7 +6,11 @@ pub struct SearctResult {
     pub file_path: PathBuf,
 }
 
-pub fn search_file(mut file_path: PathBuf, file_name: &str) -> Option<SearctResult> {
+pub fn search_file(
+    mut file_path: PathBuf,
+    file_name: &str,
+    recursive: bool,
+) -> Option<SearctResult> {
     let mut current = file_path.join(file_name);
     loop {
         let file = OpenOptions::new().read(true).open(&current);
@@ -16,6 +20,9 @@ pub fn search_file(mut file_path: PathBuf, file_name: &str) -> Option<SearctResu
                 file_path: current,
             }),
             Err(_) => {
+                if !recursive {
+                    return None;
+                }
                 if !file_path.pop() {
                     return None;
                 }

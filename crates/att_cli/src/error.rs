@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-use crate::commands::{run::RunCommandError, status::StatusCommandError};
+use crate::commands::{init::InitCommandError, run::RunCommandError, status::StatusCommandError};
 
 #[derive(Error, Debug)]
 pub enum ApplicationError {
@@ -16,4 +16,7 @@ pub enum CommandError {
 
     #[error(transparent)]
     Run(#[from] RunCommandError),
+
+    #[error(transparent)]
+    Init(#[from] InitCommandError),
 }

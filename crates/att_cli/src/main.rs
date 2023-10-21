@@ -11,6 +11,7 @@ fn run(command: AttCommand) -> Result<(), CommandError> {
     match command {
         AttCommand::Status => commands::status::execute(&context)?,
         AttCommand::Run => commands::run::execute(&context)?,
+        AttCommand::Init => commands::init::execute(&context)?,
     }
 
     Ok(())
